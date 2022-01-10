@@ -36,7 +36,7 @@ const EnhancedTableToolbar = ({ numSelected }) => {
           </Typography>
           )}
       {numSelected === 0 && (
-        <Tooltip title="Фильтрация" sx={{ ml: 1 }}>
+        <Tooltip title="Фильтрация">
           <IconButton>
             <FilterListIcon/>
           </IconButton>
