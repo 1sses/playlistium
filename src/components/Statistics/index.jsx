@@ -8,8 +8,9 @@ const Statistics = ({ videos, selected }) => {
       acc + videos[videoId - 1].duration, 0)
     return convertTime(total)
   }
+
   return (
-    <Stack>
+    <Stack mt={3}>
       <Typography variant="h5">Общая продолжительность видео: {getTotalDuration()}</Typography>
     </Stack>
   )

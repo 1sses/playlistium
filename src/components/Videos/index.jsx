@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import {
+  Box,
   Checkbox,
-  Grid, Table, TableBody,
+  Paper, Table, TableBody,
   TableCell, TableContainer, TablePagination,
   TableRow
 } from '@mui/material'
 import EnhancedTableHead from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import convertTime from '../../utils/convertTime'
+import getPaginationButtonTitles from '../../utils/getPaginationButtonTitles'
 
 function descendingComparator (a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -80,7 +82,8 @@ const Videos = ({ videos, selected, setSelected }) => {
       page > 0 ? Math.max(0, (1 + page) * rowsPerPage - videos.length) : 0
 
   return (
-      <Grid container sx={{ mt: 4, mb: 4 }}>
+    <Box sx={{ width: '100%', mt: 2 }}>
+      <Paper sx={{ width: '100%', mb: 2 }} elevation={3}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -135,7 +138,9 @@ const Videos = ({ videos, selected, setSelected }) => {
                   )
                 })}
               {emptyRows > 0 && (
-                  <TableRow>
+                  <TableRow style={{
+                    height: 53 * emptyRows
+                  }}>
                     <TableCell colSpan={6} />
                   </TableRow>
               )}
@@ -150,8 +155,14 @@ const Videos = ({ videos, selected, setSelected }) => {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            showLastButton={true}
+            showFirstButton={true}
+            labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
+            getItemAriaLabel={getPaginationButtonTitles}
+            labelRowsPerPage="Элементов на странице:"
         />
-      </Grid>
+      </Paper>
+    </Box>
   )
 }
 

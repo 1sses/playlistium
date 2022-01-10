@@ -11,7 +11,7 @@ const Search = ({ link, setLink, apiKey, searchPlaylist }) => {
     }
   }
 
-  const marginTop = useMediaQuery('(max-width:900px)') ? 8 : 0
+  const marginTop = useMediaQuery('(max-width:1300px)') ? 8 : 0
 
   return (
     <>
