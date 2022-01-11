@@ -86,8 +86,8 @@ async function getPlaylist (ctx) {
   ctx.body = { videos }
 }
 
-const router = new Router()
-router.post('/api/get-playlist', getPlaylist)
+const router = new Router({ prefix: '/api' })
+router.post('/get-playlist', getPlaylist)
 
 const app = new Koa()
 app.use(bodyParser())

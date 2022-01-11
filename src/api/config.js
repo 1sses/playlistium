@@ -1,2 +1,1 @@
-// require('dotenv').config()
-export const baseUrl = process.env.SERVER_BASE_URL || 'http://localhost:7000'
+export const baseUrl = process.env.REACT_APP_BASE_URL
