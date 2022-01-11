@@ -1,4 +1,3 @@
-require('dotenv').config()
 const Koa = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
@@ -88,7 +87,7 @@ async function getPlaylist (ctx) {
 }
 
 const router = new Router()
-router.post('/get-playlist', getPlaylist)
+router.post('/api/get-playlist', getPlaylist)
 
 const app = new Koa()
 app.use(bodyParser())
@@ -96,4 +95,4 @@ app.use(errorMiddleware)
 app.use(cors({ credentials: true, exposeHeaders: '*' }))
 app.use(router.routes())
 
-app.listen(process.env.SERVER_PORT, () => console.log(`Listening on port ${process.env.SERVER_PORT}`))
+app.listen(7000, () => console.log('Listening on port 7000'))
