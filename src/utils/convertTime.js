@@ -3,5 +3,8 @@ export default function convertTime (sec) {
   const hours = Math.floor(sec / 3600) % 24
   const minutes = Math.floor(sec / 60) % 60
   const seconds = sec % 60
-  return `${days > 0 ? `${days}д ` : ''}${hours > 0 ? `${hours}ч ` : ''}${minutes}м ${seconds}с`
+  return (days > 0 ? days + 'д ' : '') +
+    (hours > 0 ? hours + 'ч ' : '') +
+    (minutes > 0 ? minutes + 'м ' : '') +
+    (seconds > 0 ? seconds + 'с' : '')
 }

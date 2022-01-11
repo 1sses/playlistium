@@ -15,16 +15,15 @@ async function errorMiddleware (ctx, next) {
 
 // дописать случай для видео длительности больше суток
 const converter = (time) => {
-  if (time.includes('PT')) {
+  const HMStoSeconds = (HMS) => {
     let hours = 0; let minutes = 0; let seconds = 0
-    const formatted = time.replace('PT', '')
     // проверка часов
-    if (formatted.includes('H')) {
-      hours = +formatted.split('H')[0]
+    if (HMS.includes('H')) {
+      hours = +HMS.split('H')[0]
     }
     // проверка минут
-    if (formatted.includes('M')) {
-      const buffer = formatted.split('M')[0]
+    if (HMS.includes('M')) {
+      const buffer = HMS.split('M')[0]
       if (buffer.includes('H')) {
         minutes = +buffer.split('H')[1]
       } else {
@@ -32,8 +31,8 @@ const converter = (time) => {
       }
     }
     // проверка секунд
-    if (formatted.includes('S')) {
-      const buffer = formatted.split('S')[0]
+    if (HMS.includes('S')) {
+      const buffer = HMS.split('S')[0]
       if (buffer.includes('M')) {
         seconds = +buffer.split('M')[1]
       } else if (buffer.includes('H')) {
@@ -43,6 +42,14 @@ const converter = (time) => {
       }
     }
     return hours * 3600 + minutes * 60 + seconds
+  }
+
+  if (time.includes('PT')) {
+    const hms = time.replace('PT', '')
+    return HMStoSeconds(hms)
+  } else {
+    const splitted = time.replace('P', '').split('DT')
+    return +splitted[0] * 86400 + HMStoSeconds(splitted[1])
   }
 }
 
