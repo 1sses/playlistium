@@ -37,6 +37,7 @@ const Main = () => {
     switchLoading(true)
     setVideos([])
     const res = await getPlaylist(link, key)
+    console.log(res)
     if (res.error) {
       alert.show(
         'error',
