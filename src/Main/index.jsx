@@ -36,8 +36,8 @@ const Main = () => {
     }
     switchLoading(true)
     setVideos([])
+    setSelected([])
     const res = await getPlaylist(link, key)
-    console.log(res)
     if (res.error) {
       alert.show(
         'error',

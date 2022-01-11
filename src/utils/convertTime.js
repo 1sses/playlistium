@@ -1,8 +1,7 @@
 export default function convertTime (sec) {
-  const time = new Date(sec * 1000)
-  const diff = (time - new Date(0)) / 1000
-  const hours = Math.floor(diff / 3600)
-  const minutes = Math.floor((diff % 3600) / 60)
-  const seconds = Math.floor(diff % 60)
-  return `${hours > 0 ? `${hours}ч ` : ''}${minutes}м ${seconds}с`
+  const days = Math.floor(sec / 86400)
+  const hours = Math.floor(sec / 3600) % 24
+  const minutes = Math.floor(sec / 60) % 60
+  const seconds = sec % 60
+  return `${days > 0 ? `${days}д ` : ''}${hours > 0 ? `${hours}ч ` : ''}${minutes}м ${seconds}с`
 }
