@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Stack, TextField, useMediaQuery } from '@mui/material'
+import languages from '../../language'
+import { LanguageContext } from '../../context/language'
 
 const Search = ({ link, setLink, apiKey, searchPlaylist }) => {
+  const language = useContext(LanguageContext)
+
   const handleLink = (e) => {
     setLink(e.target.value)
   }
@@ -18,7 +22,7 @@ const Search = ({ link, setLink, apiKey, searchPlaylist }) => {
       <Stack spacing={2} direction="row" sx={{ mt: marginTop }}>
         <TextField
           fullWidth
-          label="Ссылка на плейлист"
+          label={languages[language.current].search.field}
           variant="outlined"
           value={link}
           onChange={handleLink}
@@ -28,7 +32,7 @@ const Search = ({ link, setLink, apiKey, searchPlaylist }) => {
           variant="contained"
           onClick={() => searchPlaylist(link, apiKey)}
         >
-          Поиск
+          {languages[language.current].search.button}
         </Button>
       </Stack>
     </>

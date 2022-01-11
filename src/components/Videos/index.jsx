@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Box,
   Checkbox,
@@ -10,6 +10,7 @@ import EnhancedTableHead from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import convertTime from '../../utils/convertTime'
 import getPaginationButtonTitles from '../../utils/getPaginationButtonTitles'
+import { LanguageContext } from '../../context/language'
 
 function descendingComparator (a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -27,10 +28,12 @@ function getComparator (order, orderBy) {
 }
 
 const Videos = ({ videos, selected, setSelected }) => {
+  const language = useContext(LanguageContext)
   const [order, setOrder] = useState('asc')
-  const [orderBy, setOrderBy] = useState('calories')
+  const [orderBy, setOrderBy] = useState('id')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [tablePaginationProps, setTablePaginationProps] = useState({})
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -80,6 +83,18 @@ const Videos = ({ videos, selected, setSelected }) => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
       page > 0 ? Math.max(0, (1 + page) * rowsPerPage - videos.length) : 0
+
+  useEffect(() => {
+    if (language.current === 'en') {
+      setTablePaginationProps({})
+    } else {
+      setTablePaginationProps({
+        labelDisplayedRows: ({ from, to, count }) => `${from}-${to} из ${count}`,
+        getItemAriaLabel: getPaginationButtonTitles,
+        labelRowsPerPage: 'Элементов на странице:'
+      })
+    }
+  }, [language.current])
 
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
@@ -133,7 +148,7 @@ const Videos = ({ videos, selected, setSelected }) => {
                             {row.id}
                           </TableCell>
                           <TableCell>{row.title}</TableCell>
-                          <TableCell>{convertTime(row.duration)}</TableCell>
+                          <TableCell>{convertTime(row.duration, language.current)}</TableCell>
                         </TableRow>
                   )
                 })}
@@ -157,9 +172,7 @@ const Videos = ({ videos, selected, setSelected }) => {
             onRowsPerPageChange={handleChangeRowsPerPage}
             showLastButton={true}
             showFirstButton={true}
-            labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
-            getItemAriaLabel={getPaginationButtonTitles}
-            labelRowsPerPage="Элементов на странице:"
+            {...tablePaginationProps}
         />
       </Paper>
     </Box>

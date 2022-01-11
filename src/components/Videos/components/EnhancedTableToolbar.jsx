@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { alpha, IconButton, Toolbar, Tooltip, Typography } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
+import { LanguageContext } from '../../../context/language'
+import languages from '../../../language'
 
 const EnhancedTableToolbar = ({ numSelected }) => {
+  const language = useContext(LanguageContext)
+
   return (
     <Toolbar
       sx={{
@@ -22,7 +26,7 @@ const EnhancedTableToolbar = ({ numSelected }) => {
             variant="subtitle1"
             component="div"
           >
-            {numSelected} видео выбрано
+            {numSelected} {languages[language.current].videos.selectedCount}
           </Typography>
           )
         : (
@@ -32,11 +36,11 @@ const EnhancedTableToolbar = ({ numSelected }) => {
             id="tableTitle"
             component="div"
           >
-            Видео из плейлиста
+            {languages[language.current].videos.tableTitle}
           </Typography>
           )}
       {numSelected === 0 && (
-        <Tooltip title="Фильтрация">
+        <Tooltip title={languages[language.current].videos.filter}>
           <IconButton>
             <FilterListIcon/>
           </IconButton>

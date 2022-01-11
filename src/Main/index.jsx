@@ -7,8 +7,12 @@ import Statistics from '../components/Statistics'
 import AlertComponent from '../components/Alert'
 import { AlertContext } from '../context/alert'
 import { getPlaylist } from '../api/get-playlist'
+import LanguageSwitcher from '../components/LanguageSwitcher'
+import { LanguageContext } from '../context/language'
+import languages from '../language'
 
 const Main = () => {
+  const language = useContext(LanguageContext)
   const [link, setLink] = useState('')
   const [apiKey, setApiKey] = useState(localStorage.getItem('apikey') || '')
   const [loading, setLoading] = useState(false)
@@ -21,16 +25,16 @@ const Main = () => {
     if (!link) {
       alert.show(
         'error',
-        'Ошибка',
-        'Введите ссылку на плейлист!'
+        languages[language.current].alert.error,
+        languages[language.current].alert.missingPlaylistLink
       )
       return
     }
     if (!key) {
       alert.show(
         'error',
-        'Ошибка',
-        'Отсутствует API-ключ! Введите его в настройках.'
+        languages[language.current].alert.error,
+        languages[language.current].alert.missingAPIkeyErr
       )
       return
     }
@@ -41,7 +45,7 @@ const Main = () => {
     if (res.error) {
       alert.show(
         'error',
-        'Ошибка',
+        languages[language.current].alert.error,
         res.error
       )
       switchLoading(false)
@@ -62,6 +66,7 @@ const Main = () => {
           <Settings apiKey={apiKey} setApiKey={setApiKey} />
           {videos.length !== 0 && <Statistics videos={videos} selected={selected} />}
           <AlertComponent />
+          <LanguageSwitcher />
         </Box>
       </Container>
     </Paper>

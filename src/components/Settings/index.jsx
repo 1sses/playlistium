@@ -2,8 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Dialog, DialogTitle, Fab, Link, Stack, TextField, useMediaQuery } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { AlertContext } from '../../context/alert'
+import { LanguageContext } from '../../context/language'
+import languages from '../../language'
 
 const Settings = ({ apiKey, setApiKey }) => {
+  const language = useContext(LanguageContext)
   const [open, setOpen] = useState(false)
   const alert = useContext(AlertContext)
 
@@ -23,8 +26,8 @@ const Settings = ({ apiKey, setApiKey }) => {
     if (!localStorage.getItem('apikey')) {
       alert.show(
         'warning',
-        'Предупреждение',
-        'Отсутствует API-ключ! Введите его в настройках, чтобы пользоваться приложением!'
+        languages[language.current].alert.warning,
+        languages[language.current].alert.missingAPIkeyWarn
       )
     }
   }, [])
@@ -34,11 +37,11 @@ const Settings = ({ apiKey, setApiKey }) => {
   return (
     <>
       <Dialog onClose={handleDialogClose} open={open} aria-labelledby="simple-dialog-title">
-        <DialogTitle>Настройки</DialogTitle>
+        <DialogTitle>{languages[language.current].settings.title}</DialogTitle>
         <Stack sx={{ padding: 2, width: modalWidth }}>
           <TextField
             fullWidth
-            label="Ключ API"
+            label={languages[language.current].settings.apiKeyField}
             variant="outlined"
             margin="normal"
             value={apiKey}
@@ -49,7 +52,7 @@ const Settings = ({ apiKey, setApiKey }) => {
             target="_blank"
             underline="hover"
           >
-            Как получить ключ?
+            {languages[language.current].settings.howToGetAPIkey}
           </Link>
         </Stack>
       </Dialog>
@@ -57,7 +60,7 @@ const Settings = ({ apiKey, setApiKey }) => {
         onClick={() => handleDialogOpen(null)}
         color="primary"
         size="medium"
-        aria-label="Настройки"
+        aria-label="Settings"
         sx={{ position: 'fixed', bottom: 20, right: 20 }}
       >
         <SettingsIcon />

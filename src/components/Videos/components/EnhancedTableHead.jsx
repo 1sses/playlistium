@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material'
 import { visuallyHidden } from '@mui/utils'
+import languages from '../../../language'
+import { LanguageContext } from '../../../context/language'
 
 const columns = [
   {
@@ -24,6 +26,8 @@ const columns = [
 ]
 
 function EnhancedTableHead ({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }) {
+  const language = useContext(LanguageContext)
+
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property)
   }
@@ -38,7 +42,7 @@ function EnhancedTableHead ({ onSelectAllClick, order, orderBy, numSelected, row
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              'aria-label': 'select all'
+              'aria-label': 'Select all'
             }}
           />
         </TableCell>
@@ -54,7 +58,7 @@ function EnhancedTableHead ({ onSelectAllClick, order, orderBy, numSelected, row
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
+              {languages[language.current].videos[headCell.id]}
               {orderBy === headCell.id
                 ? (
                   <Box component="span" sx={visuallyHidden}>
