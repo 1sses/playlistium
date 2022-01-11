@@ -6,7 +6,7 @@ import { AlertContext } from '../../context/alert'
 const AlertComponent = () => {
   const alert = useContext(AlertContext)
   return (
-    <Box sx={{ position: 'fixed', bottom: 3, left: 3, width: 300 }}>
+    <Box sx={{ position: 'fixed', bottom: 10, left: 10, width: 300 }}>
       <Collapse in={alert.visible}>
         <Alert
           severity={alert.type}

@@ -9,11 +9,12 @@ async function errorMiddleware (ctx, next) {
   try {
     await next()
   } catch (error) {
-    console.log(error)
-    ctx.body = { error: error.message }
+    console.log(error.response.data.error)
+    ctx.body = { error: checkError(error.response.data.error) }
   }
 }
 
+// дописать случай для видео длительности больше суток
 const converter = (time) => {
   if (time.includes('PT')) {
     let hours = 0; let minutes = 0; let seconds = 0
@@ -46,40 +47,32 @@ const converter = (time) => {
   }
 }
 
+function checkError (data) {
+  switch (data.errors[0].reason) {
+    case 'playlistNotFound':
+      return 'Плейлист не найден!'
+    case 'badRequest':
+      return 'Недействительный API-ключ!'
+    default:
+      return 'Что-то пошло не так...'
+  }
+}
+
 async function getPlaylist (ctx) {
   const { link, key } = ctx.request.body
   const playlistId = link.split('=')[1]
   const videos = []
   let currentIndex = 1
-
-  let playlistResponse = await axios.get(
-    'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50' +
-    `&playlistId=${playlistId}` +
-    `&key=${key}`)
-  // парсинг видео из плейлиста
-  const videoIds = playlistResponse.data.items.map(item => item.snippet.resourceId.videoId)
-  let videosResponse = await axios.get(
-    'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails' +
-    `&id=${videoIds.join(',')}` +
-    `&key=${key}`)
-  console.log(videosResponse.data)
-  videosResponse.data.items.forEach(item => {
-    videos.push({
-      id: currentIndex++,
-      title: item.snippet.title,
-      duration: converter(item.contentDetails.duration)
-    })
-  })
-
-  // цикл, если видео больше 50
-  while (playlistResponse.data.nextPageToken) {
-    playlistResponse = await axios.get(
+  let pageToken = ''
+  do {
+    const playlistResponse = await axios.get(
       'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50' +
       `&playlistId=${playlistId}` +
       `&key=${key}` +
-      `&pageToken=${playlistResponse.data.nextPageToken}`)
+      `&pageToken=${pageToken}`)
+    pageToken = playlistResponse.data.nextPageToken ?? ''
     const videoIds = playlistResponse.data.items.map(item => item.snippet.resourceId.videoId)
-    videosResponse = await axios.get(
+    const videosResponse = await axios.get(
       'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails' +
       `&id=${videoIds.join(',')}` +
       `&key=${key}`)
@@ -90,8 +83,8 @@ async function getPlaylist (ctx) {
         duration: converter(item.contentDetails.duration)
       })
     })
-  }
-  ctx.body = { message: 'Информация о плейлисте получена!', videos }
+  } while (pageToken)
+  ctx.body = { videos }
 }
 
 const router = new Router()

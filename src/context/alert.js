@@ -2,7 +2,7 @@ import { createContext, useState } from 'react'
 
 export const AlertContext = createContext({})
 
-export default function createAlert () {
+export default function useCreateAlert () {
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState('success')
   const [header, setHeader] = useState('')

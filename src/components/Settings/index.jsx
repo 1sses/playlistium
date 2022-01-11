@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Dialog, DialogTitle, Fab, Link, Stack, TextField, useMediaQuery } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
+import { AlertContext } from '../../context/alert'
 
 const Settings = ({ apiKey, setApiKey }) => {
   const [open, setOpen] = useState(false)
+  const alert = useContext(AlertContext)
 
   const handleDialogOpen = () => {
     setOpen(true)
@@ -16,6 +18,16 @@ const Settings = ({ apiKey, setApiKey }) => {
     setApiKey(e.target.value)
     localStorage.setItem('apikey', e.target.value)
   }
+
+  useEffect(() => {
+    if (!localStorage.getItem('apikey')) {
+      alert.show(
+        'warning',
+        'Предупреждение',
+        'Отсутствует API-ключ! Введите его в настройках, чтобы пользоваться приложением!'
+      )
+    }
+  }, [])
 
   const modalWidth = useMediaQuery('(max-width:600px)') ? 280 : 500
 
