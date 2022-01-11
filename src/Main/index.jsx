@@ -46,10 +46,7 @@ const Main = () => {
       switchLoading(false)
       return
     }
-    setVideos(res.videos.map(video => ({
-      ...video,
-      isSelected: false
-    })))
+    setVideos(res.videos)
     switchLoading(false)
   }
 
