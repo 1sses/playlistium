@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Box, Container, LinearProgress, Paper, Typography } from '@mui/material'
+import { Box, Container, LinearProgress, Paper, Typography, useMediaQuery } from '@mui/material'
 import Search from '../components/Search'
 import Videos from '../components/Videos'
 import Settings from '../components/Settings'
@@ -19,6 +19,8 @@ const Main = () => {
   const [selected, setSelected] = useState([])
   const alert = useContext(AlertContext)
   const switchLoading = (value) => setLoading(value)
+
+  const padding = useMediaQuery('(max-width:600px)') ? 1 : 4
 
   const searchPlaylist = async (link, key) => {
     if (!link) {
@@ -57,7 +59,7 @@ const Main = () => {
   return (
     <Paper square sx={{ minHeight: '100vh', height: 'auto' }}>
       <Container>
-        <Box sx={{ padding: 4 }}>
+        <Box sx={{ padding: padding, paddingTop: 4 }}>
           <Typography variant="h1" sx={{ fontSize: 32, position: 'absolute', left: 20 }}>Playlistium</Typography>
           <Search link={link} setLink={setLink} apiKey={apiKey} searchPlaylist={searchPlaylist}/>
           {loading && <LinearProgress sx={{ mt: 4 }} />}
