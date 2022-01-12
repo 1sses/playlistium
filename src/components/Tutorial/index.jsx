@@ -62,7 +62,7 @@ const Tutorial = () => {
           </Container>
         </Stack>
       </Dialog>
-      <IconButton color="primary" onClick={handleDialogOpen} sx={{ position: 'absolute', top: 10, right: 3 }}>
+      <IconButton color="primary" onClick={handleDialogOpen}>
         <QuestionMarkIcon />
       </IconButton>
     </>

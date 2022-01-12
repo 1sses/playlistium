@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Dialog, DialogTitle, Fab, Link, Stack, TextField } from '@mui/material'
+import { Box, Dialog, DialogTitle, Fab, IconButton, Link, Stack, TextField } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
 import { AlertContext } from '../../context/alert'
 import { LanguageContext } from '../../context/language'
 import languages from '../../language'
 import LanguageSwitcher from '../LanguageSwitcher'
 import Tutorial from '../Tutorial'
+import { ThemeContext } from '../../context/theme'
 
 const Settings = ({ apiKey, setApiKey }) => {
   const language = useContext(LanguageContext)
+  const theme = useContext(ThemeContext)
   const [open, setOpen] = useState(false)
   const alert = useContext(AlertContext)
 
@@ -54,7 +58,14 @@ const Settings = ({ apiKey, setApiKey }) => {
             {languages[language.current].settings.howToGetAPIkey}
           </Link>
           <LanguageSwitcher />
-          <Tutorial />
+          <Box sx={{ position: 'absolute', top: 13, right: 16 }}>
+            <IconButton onClick={theme.toggle}>
+              {theme.current === 'light'
+                ? <LightModeIcon />
+                : <DarkModeIcon />}
+            </IconButton>
+            <Tutorial />
+          </Box>
         </Stack>
       </Dialog>
       <Fab
