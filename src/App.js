@@ -1,19 +1,19 @@
 import React from 'react'
 import { StyledEngineProvider } from '@mui/material/styles'
-import useCreateAlert, { AlertContext } from './context/alert'
 import Main from './Main'
-import useCreateLanguage, { LanguageContext } from './context/language'
+import { AlertContextProvider } from './context/alert'
+import { LanguageContextProvider } from './context/language'
 import { ThemeContextProvider } from './context/theme'
 
 const App = () => {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeContextProvider>
-        <LanguageContext.Provider value={useCreateLanguage()}>
-          <AlertContext.Provider value={useCreateAlert()}>
+        <LanguageContextProvider>
+          <AlertContextProvider>
             <Main />
-          </AlertContext.Provider>
-        </LanguageContext.Provider>
+          </AlertContextProvider>
+        </LanguageContextProvider>
       </ThemeContextProvider>
     </StyledEngineProvider>
   )

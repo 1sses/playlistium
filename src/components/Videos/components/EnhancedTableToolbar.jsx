@@ -1,11 +1,17 @@
-import React, { useContext } from 'react'
-import { alpha, IconButton, Toolbar, Tooltip, Typography } from '@mui/material'
+import React, { useContext, useState } from 'react'
+import { alpha, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { LanguageContext } from '../../../context/language'
 import languages from '../../../language'
 
 const EnhancedTableToolbar = ({ numSelected }) => {
   const language = useContext(LanguageContext)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const filterOpen = Boolean(anchorEl)
+  const openFilter = event => {
+    setAnchorEl(event.currentTarget)
+  }
+  const closeFilter = () => setAnchorEl(null)
 
   return (
     <Toolbar
@@ -40,11 +46,20 @@ const EnhancedTableToolbar = ({ numSelected }) => {
           </Typography>
           )}
       {numSelected === 0 && (
-        <Tooltip title={languages[language.current].videos.filter}>
-          <IconButton>
-            <FilterListIcon/>
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip title={languages[language.current].videos.filter}>
+            <IconButton onClick={openFilter}>
+              <FilterListIcon/>
+            </IconButton>
+          </Tooltip>
+          <Menu
+            open={filterOpen}
+            anchorEl={anchorEl}
+            onClose={closeFilter}
+          >
+            <MenuItem onClick={closeFilter}>In develop</MenuItem>
+          </Menu>
+        </>
       )}
     </Toolbar>
   )

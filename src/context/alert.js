@@ -1,8 +1,8 @@
-import { createContext, useState } from 'react'
+import React, { createContext, useState } from 'react'
 
 export const AlertContext = createContext({})
 
-export default function useCreateAlert () {
+export const AlertContextProvider = ({ children }) => {
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState('success')
   const [header, setHeader] = useState('')
@@ -14,12 +14,16 @@ export default function useCreateAlert () {
     setMessage(message)
   }
   const close = () => setVisible(false)
-  return {
-    show,
-    close,
-    visible,
-    type,
-    header,
-    message
-  }
+  return (
+    <AlertContext.Provider value={{
+      show,
+      close,
+      visible,
+      type,
+      header,
+      message
+    }}>
+      {children}
+    </AlertContext.Provider>
+  )
 }
