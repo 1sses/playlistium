@@ -7,21 +7,21 @@ import { LanguageContext } from '../../../context/language'
 const columns = [
   {
     id: 'id',
-    numeric: false,
     disablePadding: true,
-    label: 'Номер'
+    label: 'Номер',
+    width: '5%'
   },
   {
     id: 'title',
-    numeric: false,
     disablePadding: false,
-    label: 'Название'
+    label: 'Название',
+    width: '85%'
   },
   {
     id: 'duration',
-    numeric: false,
     disablePadding: false,
-    label: 'Длительность'
+    label: 'Длительность',
+    width: '10%'
   }
 ]
 
@@ -49,9 +49,9 @@ function EnhancedTableHead ({ onSelectAllClick, order, orderBy, numSelected, row
         {columns.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={{ width: headCell.width }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
