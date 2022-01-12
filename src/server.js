@@ -8,12 +8,11 @@ async function errorMiddleware (ctx, next) {
   try {
     await next()
   } catch (error) {
-    console.log(error.response.data.error)
-    ctx.body = { error: checkError(error.response.data.error) }
+    console.log(error?.response?.data?.error || error.message)
+    ctx.body = { error: checkError(error) }
   }
 }
 
-// дописать случай для видео длительности больше суток
 const converter = (time) => {
   const HMStoSeconds = (HMS) => {
     let hours = 0; let minutes = 0; let seconds = 0
@@ -53,19 +52,35 @@ const converter = (time) => {
   }
 }
 
-function checkError (data) {
-  switch (data.errors[0].reason) {
+function checkError (error) {
+  switch (error?.response?.data?.error?.errors[0]?.reason || error.message) {
+    case 'badLink':
+      return 'badLink'
+    case 'badAPIkey':
+      return 'badAPIkey'
     case 'playlistNotFound':
-      return 'Плейлист не найден!'
+      return 'playlistNotFound'
     case 'badRequest':
-      return 'Недействительный API-ключ!'
+      return 'invalidAPIkey'
     default:
-      return 'Что-то пошло не так...'
+      return 'otherError'
+  }
+}
+
+function checkParams (link, key) {
+  const linkRegexp = /^https:\/\/www\.youtube\.com\/playlist\?list=[-_0-9a-zA-Z]*$/
+  const apiKeyRegexp = /^[-_0-9a-zA-Z]*$/ // is correct
+  if (!linkRegexp.test(link)) {
+    throw new Error('badLink')
+  }
+  if (!apiKeyRegexp.test(key)) {
+    throw new Error('badAPIkey')
   }
 }
 
 async function getPlaylist (ctx) {
   const { link, key } = ctx.request.body
+  checkParams(link, key)
   const playlistId = link.split('=')[1]
   const videos = []
   let currentIndex = 1

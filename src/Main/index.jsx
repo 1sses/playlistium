@@ -45,7 +45,7 @@ const Main = () => {
       alert.show(
         'error',
         languages[language.current].alert.error,
-        res.error
+        languages[language.current].alert[res.error]
       )
       switchLoading(false)
       return

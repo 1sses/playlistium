@@ -5,7 +5,12 @@ const languages = {
       warning: 'Предупреждение',
       missingAPIkeyWarn: 'Отсутствует API-ключ! Введите его в настройках, чтобы пользоваться приложением!',
       missingPlaylistLink: 'Введите ссылку на плейлист!',
-      missingAPIkeyErr: 'Отсутствует API-ключ! Введите его в настройках.'
+      missingAPIkeyErr: 'Отсутствует API-ключ! Введите его в настройках.',
+      badLink: 'Некорректная ссылка!',
+      badAPIkey: 'Некорректный API-ключ!',
+      playlistNotFound: 'Плейлист не найден!',
+      invalidAPIkey: 'Недействительный API-ключ!',
+      otherError: 'Что-то пошло не так...'
     },
     languageSwitcher: {
       tooltip: 'Переключатель языка'
@@ -55,7 +60,12 @@ const languages = {
       warning: 'Warning',
       missingAPIkey: 'The API key is missing! Enter it in the settings to use the app!',
       missingPlaylistLink: 'Enter the link to the playlist!',
-      missingAPIkeyErr: 'Missing API key! Enter it in the settings.'
+      missingAPIkeyErr: 'Missing API key! Enter it in the settings.',
+      badLink: 'Incorrect link!',
+      badAPIkey: 'Incorrect API key!',
+      playlistNotFound: 'Playlist not found!',
+      invalidAPIkey: 'Invalid API key!',
+      otherError: 'Something went wrong...'
     },
     languageSwitcher: {
       tooltip: 'Language switcher'
