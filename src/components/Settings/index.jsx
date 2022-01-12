@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Dialog, DialogTitle, Fab, Link, Stack, TextField, useMediaQuery } from '@mui/material'
+import { Dialog, DialogTitle, Fab, Link, Stack, TextField } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { AlertContext } from '../../context/alert'
 import { LanguageContext } from '../../context/language'
@@ -34,15 +34,12 @@ const Settings = ({ apiKey, setApiKey }) => {
     }
   }, [])
 
-  const modalWidth = useMediaQuery('(max-width:600px)') ? 280 : 500
-
   return (
     <>
-      <Dialog onClose={handleDialogClose} open={open}>
+      <Dialog onClose={handleDialogClose} open={open} maxWidth="xs" fullWidth>
         <DialogTitle>{languages[language.current].settings.title}</DialogTitle>
-        <Stack sx={{ padding: 2, width: modalWidth }}>
+        <Stack sx={{ padding: 2 }}>
           <TextField
-            fullWidth
             label={languages[language.current].settings.apiKeyField}
             variant="outlined"
             margin="normal"

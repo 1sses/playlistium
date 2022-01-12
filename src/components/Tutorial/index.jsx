@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import {
-  Button,
+  Button, Container,
   Dialog,
   DialogTitle,
   IconButton,
@@ -30,14 +30,13 @@ const Tutorial = () => {
       <Dialog onClose={handleDialogClose} open={open} maxWidth="md">
         <DialogTitle sx={{ fontSize: 22 }}>{languages[language.current].tutorial.title}</DialogTitle>
         <Stack sx={{ padding: 2 }}>
-          <Typography variant="body1" width="100%">
+          <Container>
             {languages[language.current].tutorial.text.split('\n').map(
               (line, index) => (
                 <Typography
                   key={index}
                   variant="body1"
                   gutterBottom
-                  sx={{ textIndent: 20 }}
                 >
                   {parse(line)}
                 </Typography>
@@ -60,11 +59,11 @@ const Tutorial = () => {
             <Typography>
               VK <Link href="https://vk.com/1sses" target="_blank">{languages[language.current].tutorial.here}</Link>
             </Typography>
-          </Typography>
+          </Container>
         </Stack>
       </Dialog>
-      <IconButton color="primary" sx={{ position: 'absolute', top: 10, right: 3 }}>
-        <QuestionMarkIcon onClick={handleDialogOpen} />
+      <IconButton color="primary" onClick={handleDialogOpen} sx={{ position: 'absolute', top: 10, right: 3 }}>
+        <QuestionMarkIcon />
       </IconButton>
     </>
   )
