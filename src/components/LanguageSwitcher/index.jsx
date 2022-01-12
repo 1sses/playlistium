@@ -19,7 +19,7 @@ const LanguageSwitcher = () => {
   return (
     <SpeedDial
       ariaLabel={languages[language.current].languageSwitcher.tooltip}
-      sx={{ position: 'absolute', top: 16, right: 16 }}
+      direction="left"
       icon={<TranslateIcon />}
     >
       {actions.map((action) => (

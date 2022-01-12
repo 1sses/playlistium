@@ -7,7 +7,6 @@ import Statistics from '../components/Statistics'
 import AlertComponent from '../components/Alert'
 import { AlertContext } from '../context/alert'
 import { getPlaylist } from '../api/get-playlist'
-import LanguageSwitcher from '../components/LanguageSwitcher'
 import { LanguageContext } from '../context/language'
 import languages from '../language'
 
@@ -66,7 +65,6 @@ const Main = () => {
           <Settings apiKey={apiKey} setApiKey={setApiKey} />
           {videos.length !== 0 && <Statistics videos={videos} selected={selected} />}
           <AlertComponent />
-          <LanguageSwitcher />
         </Box>
       </Container>
     </Paper>

@@ -4,6 +4,8 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import { AlertContext } from '../../context/alert'
 import { LanguageContext } from '../../context/language'
 import languages from '../../language'
+import LanguageSwitcher from '../LanguageSwitcher'
+import Tutorial from '../Tutorial'
 
 const Settings = ({ apiKey, setApiKey }) => {
   const language = useContext(LanguageContext)
@@ -36,7 +38,7 @@ const Settings = ({ apiKey, setApiKey }) => {
 
   return (
     <>
-      <Dialog onClose={handleDialogClose} open={open} aria-labelledby="simple-dialog-title">
+      <Dialog onClose={handleDialogClose} open={open}>
         <DialogTitle>{languages[language.current].settings.title}</DialogTitle>
         <Stack sx={{ padding: 2, width: modalWidth }}>
           <TextField
@@ -54,6 +56,8 @@ const Settings = ({ apiKey, setApiKey }) => {
           >
             {languages[language.current].settings.howToGetAPIkey}
           </Link>
+          <LanguageSwitcher />
+          <Tutorial />
         </Stack>
       </Dialog>
       <Fab
