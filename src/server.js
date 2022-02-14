@@ -68,8 +68,8 @@ function checkError (error) {
 }
 
 function checkParams (link, key) {
-  const linkRegexp = /^https:\/\/www\.youtube\.com\/playlist\?list=[-_0-9a-zA-Z]*$/
-  const apiKeyRegexp = /^[-_0-9a-zA-Z]*$/ // is correct
+  const linkRegexp = /^https:\/\/(www\.)?youtube\.com\/playlist\?list=[-_0-9a-zA-Z]*$/
+  const apiKeyRegexp = /^[-_0-9a-zA-Z]*$/
   if (!linkRegexp.test(link)) {
     throw new Error('badLink')
   }
